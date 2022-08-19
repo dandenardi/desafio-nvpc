@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react';
 import api from './services/api';
 
 import './App.css';
+import axios from 'axios';
 
 const ALL = '/repos';
 const MEMBER = '/repos?type=member';
 const OWNED_REPO = '/repos?type=owner';
 const SEARCH = 'https://api.github.com/search/code?q=user:dandenardi+';
+const PERSONAL = 'https://api.github.com/users/dandenardi';
 
 function App() {
-
+  const [personalData, setPersonalData] = useState([]);
   const [gitData, setGitData] = useState([]);
   const [option, setOption] = useState('all');
   const [order, setOrder] = useState('');
@@ -22,11 +24,12 @@ function App() {
 
   }, [option, order]);
 
+  useEffect(() => {
+    getPersonalData();
+  }, []);
 
   async function renderGitContent(){
 
-    console.log(option);
-    console.log(order);
     if(option === 'owned' && order === 'byName'){
       await api.get(OWNED_REPO+'&sort=name')
       .then((response) => {
@@ -129,6 +132,16 @@ function App() {
     }
   }
 
+  async function getPersonalData(){
+    await axios.get(PERSONAL)
+    .then((response) => {
+      setPersonalData(response.data);
+    })
+    .catch(function(err) {
+      console.error(err);
+    })
+  }
+
   function orderByName(){
     setOrder('byName');
   }
@@ -154,8 +167,15 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1> Bem-vinda(o) ao Site</h1>
-        <section>
+        <h1> Bem-vinda(o) ao meu site do GitHub</h1>
+        <section className="personal-data">
+          <img alt="imagem pessoal de dandenardi" src={personalData.avatar_url}/>
+          <h5>Olá, meu nome é Daniel e eu sou o {personalData.login} no GitHub. 
+            Aqui você encontra meus projetos hospedados por lá e pode fazer uma 
+            busca para saber sobre algum aspecto mais específico. Abraço!
+          </h5>
+        </section>
+        <section className="search-section">
           <label>Busque no meu Git</label>
           <input value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} placeholder="Insira a palavra-chave"/>
           <button onClick={handleSearch}>Buscar</button>
@@ -163,8 +183,9 @@ function App() {
       </header>
       <main className="app-main">
         <section className="search-container">
+          
           <table>
-            <tr>
+            <tr className={(gitSearchData.length === 0) ? "hidden" : "search-results"}>
               <th>Nome do arquivo</th>
               <th>Repositório onde se encontra</th>
               <th>URL do repositório</th>
@@ -180,7 +201,7 @@ function App() {
                     {result.repository.name}
                   </td>
                   <td>
-                    {result.git_url}
+                    <a href={result.html_url} target="_blank" rel="noreferrer">{result.html_url}</a>
                   </td>
                 </tr>
                 
@@ -190,41 +211,48 @@ function App() {
         </section>
         
         <h3>Talvez você esteja interessada(o) em: </h3>
-        <select onChange={(e) => setOption(e.target.value)}>
+        <select onChange={(e) => setOption(e.target.value)} className="git-filter">
           <option value='all'>Ver todos os repositórios</option>
           <option value='owned'>Ver apenas aqueles criados por mim</option>
           <option value='member'>Ou apenas os que participo</option>
         </select>
         <table className="git-content">
           <tr>
-            <button onClick={orderByName}><th>Nome do repositório</th></button>
+            <th className="tooltip">
+              <button onClick={orderByName} className="order-btn">Nome do repositório</button>
+              <span class="tooltiptext">Clique em mim para ordenar (por nome)</span>
+            </th>
             <th>Descrição</th>
             <th>URL</th>
-            <button onClick={orderByDate}><th>Último commit em:</th></button>
+            <th className="tooltip">
+              <button onClick={orderByDate} className="order-btn">Último commit em:</button>  
+              <span className="tooltiptext">Clique em mim para ordenar (por data)</span>
+                
+            </th>
           </tr>
-          <tbody>
+          
           
           {(gitData.length === 0)?<h1>Nenhum resultado para este critério...</h1>:gitData.map((repository, key) => {
                 return (
-                  
-                  <tr>
-                    <td>
-                      {repository.name}
-                    </td>
-                    <td>
-                      {repository.description}
-                    </td>
-                    <td>
-                      {repository.git_url}
-                    </td>
-                    <td>
-                      {repository.updated_at}
-                    </td>
-                  </tr>
-                  
+                  <tbody>
+                    <tr>
+                      <td>
+                        {repository.name}
+                      </td>
+                      <td>
+                        {repository.description}
+                      </td>
+                      <td>
+                        <a href={repository.html_url} target="_blank" rel="noreferrer">{repository.html_url}</a>
+                      </td>
+                      <td>
+                        {repository.updated_at}
+                      </td>
+                    </tr>
+                  </tbody>
                 )
             })}
-          </tbody>
+          
         </table>
       </main>
     </div>

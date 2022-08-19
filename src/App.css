@@ -1,21 +1,14 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* Header */
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 50vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -24,15 +17,135 @@
   color: white;
 }
 
+.personal-data{
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 3%;
+}
+
+.personal-data h5{
+  width: 50%;
+}
+
+.personal-data img{
+  width: 200px;
+  border-radius: 8px;
+}
+
+.search-section{
+  display: flex;
+  flex-direction: column;
+  margin: 3%;
+}
+
+.search-section input{
+  padding: 8px;
+  margin: 2%;
+  text-align: center;
+  font-size: large;
+  
+}
+
+.search-section button{
+  padding: 10px;
+}
+
+.search-results {
+  width: 100%;
+  
+}
+/* Body */
+
+.app-main{
+  margin: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+table, th, td{
+  border: 1px solid;
+}
+
+th{
+  background-color: rgb(175, 175, 162);
+}
+
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.hidden {
+  display: none;
 }
+
+.order-btn {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+
+}
+
+/* Tooltip container */
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+/* Tooltip text */
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text */
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+
+  /* Fade in tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+/* Tooltip arrow */
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+/* Show the tooltip text when you mouse over the tooltip container */
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.git-filter{
+  margin: 3%;
+  padding: 10px;
+  font-size: large;
+}
+
+
+
+
