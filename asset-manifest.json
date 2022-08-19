@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/desafionvpc/static/css/main.2619aa98.css",
-    "main.js": "/desafionvpc/static/js/main.24e4896f.js",
-    "index.html": "/desafionvpc/index.html",
-    "main.2619aa98.css.map": "/desafionvpc/static/css/main.2619aa98.css.map",
-    "main.24e4896f.js.map": "/desafionvpc/static/js/main.24e4896f.js.map"
+    "main.css": "/desafio-nvpc/static/css/main.2619aa98.css",
+    "main.js": "/desafio-nvpc/static/js/main.24e4896f.js",
+    "index.html": "/desafio-nvpc/index.html",
+    "main.2619aa98.css.map": "/desafio-nvpc/static/css/main.2619aa98.css.map",
+    "main.24e4896f.js.map": "/desafio-nvpc/static/js/main.24e4896f.js.map"
   },
   "entrypoints": [
     "static/css/main.2619aa98.css",
